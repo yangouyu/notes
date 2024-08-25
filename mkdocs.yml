@@ -1,0 +1,40 @@
+site_name: 学习笔记
+
+nav:
+  - 文档说明: index.md
+  - 数学公式:
+      - Latex: 数学公式/Markdown写作方法.md
+  - 深度学习:
+      - 深度学习: 深度学习/环境安装.md
+  - 英语:
+      - 名词: 英语/名词.md
+
+theme:
+  name: material
+  features:
+    - instant
+    - navigation.tabs
+    - navigation.sections
+
+markdown_extensions:
+  - pymdownx.arithmatex
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      linenums: true
+
+
+
+extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js
+
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css
+
+extra:
+  mathjax:
+    tex:
+      tags: 'ams'  # 启用 AMS 标签支持
+      processEscapes: true
+
+plugins:
+  - search

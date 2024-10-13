@@ -638,22 +638,78 @@
 conda<span class="w"> </span>activate<span class="w"> </span>jupyter<span class="w">                                        </span>//<span class="w"> </span>激活新环境
 conda<span class="w"> </span>install<span class="w"> </span>notebook<span class="w">                                        </span>//<span class="w"> </span>安装jupyter
 conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>jupyter_contrib_nbextensions<span class="w">     </span>//<span class="w"> </span>安装插件，失败用pip
-jupyter<span class="w"> </span>notebook<span class="w"> </span>--notebook-dir<span class="o">=</span>/path/to/your/directory<span class="w">       </span>//<span class="w"> </span>启动jupyter
+jupyter<span class="w"> </span>notebook<span class="w"> </span>--notebook-dir<span class="o">=</span>F:<span class="se">\h</span>ome<span class="w">                       </span>//<span class="w"> </span>启动jupyter
 </code></pre></div></td></tr></table></div></p>
 <h1 id="jupyter_1">给Jupyter创建新环境</h1>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>newenv<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.8<span class="w">                                                               </span>//<span class="w"> </span>创建新环境
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>newenv<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.8<span class="w">                                                               </span>//<span class="w"> </span>创建新环境
 conda<span class="w"> </span>activate<span class="w"> </span>newenv<span class="w">                                                                           </span>//<span class="w"> </span>进入新环境
 conda<span class="w"> </span>install<span class="w"> </span>ipykernel<span class="w">                                                                         </span>//<span class="w"> </span>安装内核
 python<span class="w"> </span>-m<span class="w"> </span>ipykernel<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>--name<span class="o">=</span>newenv<span class="w"> </span>--display-name<span class="o">=</span><span class="s2">&quot;Python (newenv)&quot;</span><span class="w">  </span>
+python<span class="w"> </span>-m<span class="w"> </span>ipykernel<span class="w"> </span>install<span class="w"> </span>--name<span class="o">=</span>paddle<span class="w"> </span>--display-name<span class="w"> </span><span class="s2">&quot;Paddle&quot;</span><span class="w"> </span>--sys-prefix<span class="w">                  </span>//<span class="w"> </span>这个才是全局的
 </code></pre></div></td></tr></table></div>
 <h1 id="jupyter_2">查看Jupyter环境</h1>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>jupyter<span class="w"> </span>kernelspec<span class="w"> </span>list<span class="w">                                        </span>//<span class="w"> </span>查看所有内核
 jupyter<span class="w"> </span>kernelspec<span class="w"> </span>uninstall<span class="w"> </span>kernel_name<span class="w">                       </span>//<span class="w"> </span>卸载内核
 </code></pre></div></td></tr></table></div>
+<h1 id="jupyterhub">jupyterhub 安装部署</h1>
+<p>jupyterhub 是单独的一个软件，负责启动多个jupyter，给多个用户使用的，只能部署在linux系统上，因此不要妄想部署在windows上，且不要妄想jupyterhub和jupyter分开部署，因为分开部署jupyterhub就无法控制jupyter。</p>
+<blockquote>
+<p>注意：启动jupyterhub要在配置文件目录下配置文件才能有用</p>
+</blockquote>
+<p>生成配置文件的脚本如下：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>jupyterhub<span class="w"> </span>--generate-config
+</code></pre></div></td></tr></table></div>
+<p>经过多次摸索，生成的jupyterhub配置如下：
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># 全局配置，默认就带</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">get_config</span><span class="p">()</span>
+
+<span class="c1"># linux下还是交给PAM做用户管理最方便，直接可以映射到本地存储，还能简单的防止丢失代码</span>
+<span class="n">c</span><span class="o">.</span><span class="n">JupyterHub</span><span class="o">.</span><span class="n">authenticator_class</span> <span class="o">=</span> <span class="s1">&#39;jupyterhub.auth.PAMAuthenticator&#39;</span>
+<span class="c1"># 一般python都需要结合conda使用，有许多个运行python 的环境，jupyterhub结合conda需要这么配置</span>
+<span class="n">c</span><span class="o">.</span><span class="n">KernelSpecManager</span><span class="o">.</span><span class="n">kernel_spec_class</span> <span class="o">=</span> <span class="s2">&quot;nb_conda_kernels.CondaKernelSpec&quot;</span>
+<span class="c1"># 允许那些用户登录到本软件</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Authenticator</span><span class="o">.</span><span class="n">allowed_users</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;yanguoyu&#39;</span><span class="p">,</span> <span class="s1">&#39;liran&#39;</span><span class="p">}</span>
+<span class="c1"># 那个是管理员，目前已知管理员可以在线创建用户</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Authenticator</span><span class="o">.</span><span class="n">admin_users</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;yanguoyu&#39;</span><span class="p">}</span>
+<span class="c1"># 在启动Spawner前执行的命令，目的就是找到conda和jupyterhub的conda环境</span>
+<span class="n">c</span><span class="o">.</span><span class="n">Spawner</span><span class="o">.</span><span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;/opt/miniconda/bin/conda&#39;</span><span class="p">,</span> <span class="s1">&#39;run&#39;</span><span class="p">,</span> <span class="s1">&#39;-n&#39;</span><span class="p">,</span> <span class="s1">&#39;jupyterhub&#39;</span><span class="p">,</span> <span class="s1">&#39;jupyter-labhub&#39;</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div></p>
+<h1 id="_1">额外注意</h1>
+<ol>
+<li>要在具有cuda和cudnn的镜像中部署，而不是直接在jupyterhub镜像中部署，不然无法使用paddle和pytorch</li>
+<li>要结合conda使用的化，也很难，一言难尽。</li>
+<li>要将/home文件做映射，以实现用户创建代码的永久保存</li>
+<li>最好把config文件单独映射进去，从而可以随意调整配置文件，来探索jupyterhub，因为部署有很多坑要踩，快速配置很重要
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--gpus<span class="w"> </span>all<span class="w"> </span>-it<span class="w"> </span>-d<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--name<span class="w"> </span>jupyterhub<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-v<span class="w"> </span>F:<span class="se">\j</span>upyterhub_data<span class="se">\h</span>ome:/home<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-v<span class="w"> </span>F:<span class="se">\j</span>upyterhub_data<span class="se">\c</span>onfig:/srv/jupyterhub<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu20.04<span class="w"> </span>/bin/bash
+</code></pre></div></td></tr></table></div></li>
+</ol>
 
 
 

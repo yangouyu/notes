@@ -2,17 +2,17 @@ site_name: 学习笔记
 
 nav:
   - 文档说明:
-    - 文档来源: index.md
+    - 文档来源: 笔记使用/index.md
     - 使用说明: 笔记使用/笔记使用.md
   - 数学:
-      - Latex: 数学公式/Markdown写作方法.md
+      - Latex: 数学/公式Markdown写法.md
   - 英语:
       - 名词: 英语/名词.md
       - 代词: 英语/代词.md
   - 深度学习:
       - 深度学习: 深度学习/环境安装.md
   - Python:
-    - Jupyter: 项目部署/Jupyter.md
+    - Jupyter: Python/Jupyter部署/Jupyter.md
 
 theme:
   name: material

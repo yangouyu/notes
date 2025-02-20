@@ -1,9 +1,10 @@
 site_name: 学习笔记
 
+site_url: https://yangouyu.github.io/notes/
+
 nav:
   - 文档说明:
     - 文档来源: index.md
-    - 使用说明: 笔记使用/笔记使用.md
   - 数学:
       - Latex: 数学/公式_Markdown写法.md
   - 英语:
@@ -13,6 +14,8 @@ nav:
       - 深度学习: 深度学习/环境安装.md
   - Python:
     - Jupyter: Python/Jupyter部署/Jupyter.md
+  - 项目:
+      - 笔记: 笔记使用/笔记使用.md
 
 theme:
   name: material

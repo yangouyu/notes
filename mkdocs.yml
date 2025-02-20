@@ -1,7 +1,5 @@
 site_name: 学习笔记
 
-site_url: https://yangouyu.github.io/notes/
-
 nav:
   - 文档说明:
     - 文档来源: index.md
@@ -15,7 +13,7 @@ nav:
   - Python:
     - Jupyter: Python/Jupyter部署/Jupyter.md
   - 项目:
-      - 笔记: 笔记使用/笔记使用.md
+      - 笔记: 项目/笔记/笔记使用.md
 
 theme:
   name: material
@@ -29,8 +27,6 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.highlight:
       linenums: true
-
-
 
 extra_javascript:
   - https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js
@@ -46,3 +42,5 @@ extra:
 
 plugins:
   - search
+
+site_url: https://yangouyu.github.io/notes/

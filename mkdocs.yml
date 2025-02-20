@@ -2,7 +2,7 @@ site_name: 学习笔记
 
 nav:
   - 文档说明:
-    - 文档来源: 笔记使用/index.md
+    - 文档来源: index.md
     - 使用说明: 笔记使用/笔记使用.md
   - 数学:
       - Latex: 数学/公式_Markdown写法.md

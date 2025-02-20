@@ -1,8 +1,8 @@
 site_name: 学习笔记
 
 nav:
-  - 文档说明:
-    - 文档来源: index.md
+  - 笔记介绍: index.md
+
   - 数学:
       - Latex: 数学/公式_Markdown写法.md
   - 英语:
@@ -13,7 +13,9 @@ nav:
   - Python:
     - Jupyter: Python/Jupyter部署/Jupyter.md
   - 项目:
-      - 笔记: 项目/笔记/笔记使用.md
+      - mkdocs笔记:
+          - 笔记介绍: 项目/笔记/介绍.md
+          - 使用方法: 项目/笔记/笔记使用.md
 
 theme:
   name: material
